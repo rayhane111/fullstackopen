@@ -1,14 +1,9 @@
 import { useState } from 'react'
-
-// Composant pour afficher la valeur
 const Display = ({ value }) => <div>{value}</div>
-
-// Composant pour les boutons
 const Button = ({ handleClick, text }) => (
   <button onClick={handleClick}>{text}</button>
 )
 
-// Composant pour l'historique des clics
 const History = ({ allClicks }) => {
   if (allClicks.length === 0) {
     return <div>The app is used by pressing the buttons</div>
@@ -22,7 +17,6 @@ const App = () => {
   const [right, setRight] = useState(0)
   const [allClicks, setAllClicks] = useState([])
 
-  // Handlers pour les clics
   const handleLeftClick = () => {
     setAllClicks([...allClicks, 'L']) // ne jamais muter directement
     setLeft(left + 1)
@@ -32,8 +26,6 @@ const App = () => {
     setAllClicks([...allClicks, 'R'])
     setRight(right + 1)
   }
-
-  // Fonction usine pour les handlers génériques (optionnel)
   const setToValue = (setter, newValue) => () => setter(newValue)
 
   return (
