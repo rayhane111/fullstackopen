@@ -1,0 +1,57 @@
+import { useState } from 'react'
+
+// Composant pour afficher la valeur
+const Display = ({ value }) => <div>{value}</div>
+
+// Composant pour les boutons
+const Button = ({ handleClick, text }) => (
+  <button onClick={handleClick}>{text}</button>
+)
+
+// Composant pour l'historique des clics
+const History = ({ allClicks }) => {
+  if (allClicks.length === 0) {
+    return <div>The app is used by pressing the buttons</div>
+  }
+
+  return <div>Button press history: {allClicks.join(' ')}</div>
+}
+
+const App = () => {
+  const [left, setLeft] = useState(0)
+  const [right, setRight] = useState(0)
+  const [allClicks, setAllClicks] = useState([])
+
+  // Handlers pour les clics
+  const handleLeftClick = () => {
+    setAllClicks([...allClicks, 'L']) // ne jamais muter directement
+    setLeft(left + 1)
+  }
+
+  const handleRightClick = () => {
+    setAllClicks([...allClicks, 'R'])
+    setRight(right + 1)
+  }
+
+  // Fonction usine pour les handlers génériques (optionnel)
+  const setToValue = (setter, newValue) => () => setter(newValue)
+
+  return (
+    <div>
+      <h1>Click Counter</h1>
+      <div>
+        <Display value={left} />
+        <Button handleClick={handleLeftClick} text="left" />
+        <Button handleClick={handleRightClick} text="right" />
+        <Display value={right} />
+      </div>
+
+      <Button handleClick={setToValue(setLeft, 0)} text="Reset Left" />
+      <Button handleClick={setToValue(setRight, 0)} text="Reset Right" />
+
+      <History allClicks={allClicks} />
+    </div>
+  )
+}
+
+export default App
